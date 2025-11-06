@@ -26,7 +26,7 @@ jobs:
       - name: Check the recent xsuite version
         id: ver
         run: |
-           echo "version=$(python3 ci/get_recent_xsuite_version.py)" >> $GITHUB_OUTPUT
+           echo "version=$(python3 ci/check_recent_pypi_version.py)" >> $GITHUB_OUTPUT
 
       - name: Check if tag exists
         id: check
