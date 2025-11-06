@@ -7,7 +7,7 @@ with urllib.request.urlopen(url) as r:
 
 version = data["info"]["version"]
 
-print(f"The most recent version on PyPi is '{version}'")
+print(f"The latest version on PyPi is '{version}'")
 
 github_output = os.environ.get("GITHUB_OUTPUT")
 if github_output:
