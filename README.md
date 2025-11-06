@@ -1,2 +1,1 @@
-
-*empty*
+Checks "PyPi" daily for a new version of `xsuite` and builds+pushes a new Docker image if a new version is found.
