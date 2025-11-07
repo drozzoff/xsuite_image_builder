@@ -14,6 +14,16 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        flavor:
+          - name: cpu
+            file: Dockerfile
+            tag_suffix: ""
+          - name: opencl
+            file: Dockerfile.opencl
+            tag_suffix: "-opencl"
+            
     steps:
       - uses: actions/checkout@v4
 
@@ -40,9 +50,10 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
+          file: ${{ matrix.flavor.file }}
           push: true
           build-args: |
             XSUITE_VERSION=${{ steps.ver.outputs.version }}
           tags: |
-            ${{ env.IMAGE_REPO }}:${{ steps.ver.outputs.version }}
-            ${{ env.IMAGE_REPO }}:latest
+            ${{ env.IMAGE_REPO }}:${{ steps.ver.outputs.version }}${{ matrix.flavor.tag_suffix }}
+            ${{ env.IMAGE_REPO }}:latest${{ matrix.flavor.tag_suffix }}
