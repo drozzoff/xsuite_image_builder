@@ -1,0 +1,21 @@
+FROM drozzoff/xsuite:latest-opencl
+ARG ROCM_SERIES=6.3.4
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates gnupg curl libnuma1 libdrm2 \
+&& mkdir -p /etc/apt/keyrings
+
+RUN curl -fsSL https://repo.radeon.com/rocm/rocm.gpg.key | gpg --dearmor -o /etc/apt/keyrings/rocm.gpg
+RUN echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/${ROCM_SERIES} jammy main" \
+      > /etc/apt/sources.list.d/rocm.list
+	
+RUN apt-get update && apt-get install -y --no-install-recommends rocm-opencl-runtime && rm -rf /var/lib/apt/lists/*
+
+RUN rm -rf /etc/OpenCL/vendors && mkdir -p /etc/OpenCL/vendors \
+ && AMDCL_SO="$(find /opt/rocm -maxdepth 4 -type f -name libamdocl64.so | head -n1)" \
+ && echo "${AMDCL_SO:-/opt/rocm/lib/libamdocl64.so}" > /etc/OpenCL/vendors/amdocl64.icd
+
+ENV PATH="/opt/venv/bin:/opt/rocm/bin:${PATH}" \
+    LD_LIBRARY_PATH="/opt/rocm/lib:/opt/rocm/lib64:${LD_LIBRARY_PATH}"
+	
+CMD ["bash"]
