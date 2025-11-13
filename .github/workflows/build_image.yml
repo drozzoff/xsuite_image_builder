@@ -23,7 +23,10 @@ jobs:
           - name: opencl
             file: Dockerfile.opencl
             tag_suffix: "-opencl"
-            
+          - name: hpc
+            file: Dockerfile.hpc
+            tag_suffix: "-gsihpc"
+
     steps:
       - uses: actions/checkout@v4
 

@@ -5,3 +5,4 @@ I store them at `drozzoff/xsuite:latest` on Docker Hub.
 The versions stored there:
 - `:{version}` - Bare version.
 - `:{version}-opencl` - with `pyopencl`.
+- `:{version}-gsihpc` - for the use on GSI HPC.
