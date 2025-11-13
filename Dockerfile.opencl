@@ -11,6 +11,6 @@ ENV PATH="/opt/venv/bin:$PATH"
 ARG XSUITE_VERSION=latest
 
 RUN python3 -m pip install --upgrade pip &&\
-	python3 -m pip install --no-cache-dir xsuite==${XSUITE_VERSION} pyopencl
+	python3 -m pip install --no-cache-dir xsuite==${XSUITE_VERSION} pyopencl mako
 
 CMD ["bash"]
