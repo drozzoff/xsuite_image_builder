@@ -88,5 +88,5 @@ jobs:
           build-args: |
             XSUITE_VERSION=${{ needs.build-base.outputs.version }}
           tags: |
-            ${{ env.IMAGE_REPO }}:${{ needs.build-base.outputs.minor_version }}$-gsihpc
+            ${{ env.IMAGE_REPO }}:${{ needs.build-base.outputs.minor_version }}-gsihpc
             ${{ env.IMAGE_REPO }}:latest-gsihpc
