@@ -1,9 +1,17 @@
 import os
 import subprocess
+import sys
 
 image_repo = os.environ['IMAGE_REPO']
-recent_minor_version = os.environ['RECENT_MINOR_VERSION']
-tag = f"{image_repo}:{recent_minor_version}"
+
+if len(sys.argv) == 1:
+	tag = f"{image_repo}:{os.environ['RECENT_MINOR_VERSION']}"
+
+elif len(sys.argv) == 2:
+	# allow to overwrite the tag manually
+	tag = f"{image_repo}:{sys.argv[1]}" 
+else:
+	raise Exception("Too many parameters")
 
 tag_exists = subprocess.run(
 	["docker", "manifest", "inspect", tag],
@@ -11,7 +19,7 @@ tag_exists = subprocess.run(
 	stderr = subprocess.DEVNULL
 ).returncode == 0
 
-print(f"The version '{tag}' exists = {tag_exists}")
+print(f"The tag '{tag}' exists = {tag_exists}")
 
 github_output = os.environ.get("GITHUB_OUTPUT")
 if github_output:
