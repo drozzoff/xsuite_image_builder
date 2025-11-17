@@ -80,7 +80,7 @@ jobs:
       - name: Check if tag exists
         id: check
         run: |
-            python3 ci/check_docker_tag.py ${{ env.IMAGE_REPO }}:${{ needs.build-base.outputs.minor_version }}-hpc
+            python3 ci/check_docker_tag.py ${{ env.IMAGE_REPO }}:${{ needs.build-base.outputs.minor_version }}-gsihpc
 
       - name: Build and push
         if: steps.check.outputs.tag_exists == 'false'
