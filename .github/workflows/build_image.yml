@@ -97,7 +97,7 @@ jobs:
 
   build-hpc-tf:
     runs-on: ubuntu-latest
-    needs: build-hpc
+    needs: [build-base, build-hpc]
 
     steps:
       - uses: actions/checkout@v4
