@@ -6,9 +6,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates
 && mkdir -p /etc/apt/keyrings
 
 RUN curl -fsSL https://repo.radeon.com/rocm/rocm.gpg.key | gpg --dearmor -o /etc/apt/keyrings/rocm.gpg
-RUN echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/${ROCM_SERIES} jammy main" \
+RUN echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/${ROCM_SERIES} noble main" \
       > /etc/apt/sources.list.d/rocm.list
-	
+
+RUN printf 'Package: *\nPin: release o=repo.radeon.com\nPin-Priority: 600\n' > /etc/apt/preferences.d/rocm-pin-600
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
     rocm-opencl-runtime \
     rocm-hip-runtime \
@@ -20,7 +22,7 @@ RUN rm -rf /etc/OpenCL/vendors && mkdir -p /etc/OpenCL/vendors \
  && AMDCL_SO="$(find /opt/rocm -maxdepth 4 -type f -name libamdocl64.so | head -n1)" \
  && echo "${AMDCL_SO:-/opt/rocm/lib/libamdocl64.so}" > /etc/OpenCL/vendors/amdocl64.icd
 
-ENV PATH="/opt/venv/bin:/opt/rocm/bin:${PATH}" \
-    LD_LIBRARY_PATH="/opt/rocm/lib:/opt/rocm/lib64:${LD_LIBRARY_PATH}"
-	
+ENV PATH=/opt/venv/bin:/opt/rocm/bin:${PATH}
+ENV LD_LIBRARY_PATH=/opt/rocm/lib:/opt/rocm/lib64
+
 CMD ["bash"]
