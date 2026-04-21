@@ -11,12 +11,7 @@ RUN echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.rad
 
 RUN printf 'Package: *\nPin: release o=repo.radeon.com\nPin-Priority: 600\n' > /etc/apt/preferences.d/rocm-pin-600
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    rocm-opencl-runtime \
-    rocm-hip-runtime \
-    rocm-hip-libraries \
-    rocm-ml-libraries \
- && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends rocm-opencl-runtime && rm -rf /var/lib/apt/lists/*
 
 RUN rm -rf /etc/OpenCL/vendors && mkdir -p /etc/OpenCL/vendors \
  && AMDCL_SO="$(find /opt/rocm -maxdepth 4 -type f -name libamdocl64.so | head -n1)" \
