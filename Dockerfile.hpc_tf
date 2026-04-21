@@ -5,7 +5,16 @@ ARG ROCM_SERIES=6.3.4
 RUN apt-get update && apt-get install -y --no-install-recommends rocm-hip-runtime
 RUN apt-get install -y --no-install-recommends rocm-hip-libraries
 RUN apt-get install -y --no-install-recommends rocm-ml-libraries
-RUN apt-get install -y --no-install-recommends rocblas-dev-rpath${ROCM_SERIES}
+RUN set -eux; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends rocblas-dev-rpath${ROCM_SERIES} \
+    || { \
+        echo "=== /var/log/apt/term.log ==="; \
+        cat /var/log/apt/term.log || true; \
+        echo "=== /var/log/dpkg.log ==="; \
+        cat /var/log/dpkg.log || true; \
+        exit 1; \
+    }
 RUN apt-get install -y --no-install-recommends miopen-hip-dev-rpath${ROCM_SERIES}
 
 RUN python3 -m pip install --no-cache-dir \
