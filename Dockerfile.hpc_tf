@@ -2,13 +2,11 @@ FROM drozzoff/xsuite:latest-gsihpc
 ARG TF_ROCM_VERSION=2.16.2
 ARG ROCM_SERIES=6.3.4
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-	rocm-hip-runtime \
-	rocm-hip-libraries \
-	rocm-ml-libraries \
-	rocblas-dev-rpath${ROCM_SERIES} \
-	miopen-hip-dev-rpath${ROCM_SERIES} \
- && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends rocm-hip-runtime
+RUN apt-get install -y --no-install-recommends rocm-hip-libraries
+RUN apt-get install -y --no-install-recommends rocm-ml-libraries
+RUN apt-get install -y --no-install-recommends rocblas-dev-rpath${ROCM_SERIES}
+RUN apt-get install -y --no-install-recommends miopen-hip-dev-rpath${ROCM_SERIES}
 
 RUN python3 -m pip install --no-cache-dir \
 	tensorflow-rocm==${TF_ROCM_VERSION} \
