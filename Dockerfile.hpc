@@ -9,7 +9,11 @@ RUN curl -fsSL https://repo.radeon.com/rocm/rocm.gpg.key | gpg --dearmor -o /etc
 RUN echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/${ROCM_SERIES} jammy main" \
       > /etc/apt/sources.list.d/rocm.list
 	
-RUN apt-get update && apt-get install -y --no-install-recommends rocm-opencl-runtime hip-runtime-amd \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    rocm-opencl-runtime \
+    rocm-hip-runtime \
+    rocm-hip-libraries \
+    rocm-ml-libraries \
  && rm -rf /var/lib/apt/lists/*
 
 RUN rm -rf /etc/OpenCL/vendors && mkdir -p /etc/OpenCL/vendors \

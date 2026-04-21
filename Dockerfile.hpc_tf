@@ -1,6 +1,6 @@
 FROM drozzoff/xsuite:latest-gsihpc
-ARG ROCM_SERIES=6.3.4
+ARG TF_ROCM_VERSION=2.16.2
 
-RUN python3 -m pip install --no-cache-dir tensorflow-rocm==2.16.2 -f https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3/
+RUN python3 -m pip install --no-cache-dir tensorflow-rocm==${TF_ROCM_VERSION} -f https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3/
 
 CMD ["bash"]
