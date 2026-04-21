@@ -2,15 +2,21 @@ FROM drozzoff/xsuite:latest-gsihpc
 ARG TF_ROCM_VERSION=2.16.2
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    rocm-hip-runtime \
-    rocm-hip-libraries \
-    rocm-ml-libraries \
+	rocm-hip-runtime \
+	rocm-hip-libraries \
+	rocm-ml-libraries \
+	rocblas-dev-rpath${ROCM_SERIES} \
+	miopen-hip-dev-rpath${ROCM_SERIES} \
  && rm -rf /var/lib/apt/lists/*
 
 RUN python3 -m pip install --no-cache-dir \
-    tensorflow-rocm==${TF_ROCM_VERSION} \
-    -f https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3/
+	tensorflow-rocm==${TF_ROCM_VERSION} \
+	-f https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3/
 
-RUN python3 -c "import tensorflow as tf; print(f"Import works, version = {tf.__version__}")"
+RUN ln -sf /opt/rocm/lib/librocblas.so.4 /opt/rocm/lib/librocblas.so && \
+	ln -sf /opt/rocm/lib/libMIOpen.so.1 /opt/rocm/lib/libMIOpen.so && \
+	ln -sf /opt/rocm/lib/libhipfft.so.0 /opt/rocm/lib/libhipfft.so
+
+RUN python3 -c "import tensorflow as tf; print(tf.__version__)"
 
 CMD ["bash"]
