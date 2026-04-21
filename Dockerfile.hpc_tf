@@ -1,5 +1,6 @@
 FROM drozzoff/xsuite:latest-gsihpc
 ARG TF_ROCM_VERSION=2.16.2
+ARG ROCM_SERIES=6.3.4
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
 	rocm-hip-runtime \
