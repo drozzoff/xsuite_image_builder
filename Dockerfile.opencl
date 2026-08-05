@@ -13,7 +13,7 @@ ARG XSUITE_VERSION=latest
 RUN python3 -m pip install --upgrade pip &&\
 	python3 -m pip install --no-cache-dir xsuite==${XSUITE_VERSION} pyopencl mako
 
-ARG TOOLBOX_REF=a153fe35e9292091a4b238091bdfc55ab28fe9ec
+ARG TOOLBOX_REF=ad23a0ee0104b29edcc9b37af9bce9c15d0bed1e
 
 RUN /opt/venv/bin/python -m pip install --no-cache-dir "https://github.com/drozzoff/toolbox/archive/${TOOLBOX_REF}.zip" \
 && /opt/venv/bin/python -c "import toolbox; print(toolbox.__file__)"
