@@ -9,13 +9,15 @@ RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
 ARG XSUITE_VERSION=latest
+ARG TOOLBOX_VERSION=v0.1.6a
 
 RUN python3 -m pip install --upgrade pip &&\
 	python3 -m pip install --no-cache-dir xsuite==${XSUITE_VERSION} pyopencl mako
 
 ARG TOOLBOX_REF=ad23a0ee0104b29edcc9b37af9bce9c15d0bed1e
 
-RUN /opt/venv/bin/python -m pip install --no-cache-dir "https://github.com/drozzoff/toolbox/archive/${TOOLBOX_REF}.zip" \
-&& /opt/venv/bin/python -c "import toolbox; print(toolbox.__file__)"
+RUN /opt/venv/bin/python -m pip install --no-cache-dir \
+    "https://github.com/drozzoff/toolbox/archive/refs/tags/${TOOLBOX_VERSION}.zip" \
+    && /opt/venv/bin/python -c "import toolbox; print(toolbox.__file__)"
 	
 CMD ["bash"]

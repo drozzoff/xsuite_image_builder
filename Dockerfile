@@ -8,13 +8,13 @@ RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
 ARG XSUITE_VERSION=latest
+ARG TOOLBOX_VERSION=v0.1.6a
 
 RUN python3 -m pip install --upgrade pip &&\
 	python3 -m pip install --no-cache-dir xsuite==${XSUITE_VERSION}
 
-ARG TOOLBOX_REF=c12579b7926cca42000f40a9ec06d77ed0ae5f9b
-
-RUN /opt/venv/bin/python -m pip install --no-cache-dir "https://github.com/drozzoff/toolbox/archive/${TOOLBOX_REF}.zip" \
-&& /opt/venv/bin/python -c "import toolbox; print(toolbox.__file__)"
+RUN /opt/venv/bin/python -m pip install --no-cache-dir \
+    "https://github.com/drozzoff/toolbox/archive/refs/tags/${TOOLBOX_VERSION}.zip" \
+    && /opt/venv/bin/python -c "import toolbox; print(toolbox.__file__)"
 	
 CMD ["bash"]
